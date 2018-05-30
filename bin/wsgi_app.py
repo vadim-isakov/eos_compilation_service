@@ -21,7 +21,7 @@ LIMITS = [
     '--ulimit', 'locks=134217728',
     '--ulimit', 'fsize=16777216',
     '--ulimit', 'nofile=256',
-    # '--ulimit', 'cpu=1',
+    # '--ulimit', 'cpu=3', # only 3 works
     '--ulimit', 'nproc=16',
     '--net', 'none',
 ]
