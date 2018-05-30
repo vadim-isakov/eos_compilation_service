@@ -10,7 +10,7 @@ RUN git clone -b $branch https://github.com/EOSIO/eos.git --recursive \
 
 FROM ubuntu:18.04
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install openssl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install openssl sudo && rm -rf /var/lib/apt/lists/*
 # taken from official repo
 COPY --from=builder /usr/local/lib/* /usr/local/lib/
 COPY --from=builder /tmp/build/bin /opt/eosio/bin
