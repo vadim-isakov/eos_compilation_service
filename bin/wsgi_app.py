@@ -100,8 +100,9 @@ def run(tmpdir, flag):
         + ["eos_compiler"]
         + [
             '/usr/bin/timeout', '-s', 'KILL', '5',
+            'sudo', '-u', 'nobody',
             '/bin/bash', '-c', '/opt/eosio/bin/eosiocpp --{} /tmp/contract.out /input/contract.cpp &> /dev/null; cat /tmp/contract.out'.format(flag)
-        ], #'sudo', '-u', 'nobody',
+        ],
         stdout=subprocess.PIPE
     )
     out, err = pr.communicate()
