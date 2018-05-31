@@ -47,11 +47,11 @@ def compile():
 
         bin, err = run(tmpdir, 'outname')
         if err:
-            _send_error("Compilation error/1")
+            return _send_error("Compilation error/1")
 
         abi, err = run(tmpdir, 'genabi')
         if err:
-            _send_error("Compilation error/2")
+            return _send_error("Compilation error/2")
 
 
         return json.dumps(
