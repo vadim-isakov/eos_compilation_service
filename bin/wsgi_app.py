@@ -16,7 +16,7 @@ LIMITS = [
     '--memory=128m',
     '--memory-swap=128m',
     '--ulimit', 'core=0',
-    '--ulimit', 'data=134217728',
+    '--ulimit', 'data=536870912',
     '--ulimit', 'rss=134217728',
     '--ulimit', 'locks=134217728',
     '--ulimit', 'fsize=16777216',
@@ -99,7 +99,7 @@ def run(tmpdir, flag):
         + LIMITS
         + ["eos_compiler"]
         + [
-            '/usr/bin/timeout', '-s', 'KILL', '5',
+            '/usr/bin/timeout', '-s', 'KILL', '10',
             'sudo', '-u', 'nobody',
             '/bin/bash', '-c', '/opt/eosio/bin/eosiocpp --{} /tmp/contract.out /input/contract.cpp &> /dev/null; cat /tmp/contract.out'.format(flag)
         ],
