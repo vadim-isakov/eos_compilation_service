@@ -13,8 +13,8 @@ from flask import Flask, request
 DOCKER_HOST = os.environ.get("DOCKER_HOST", '127.0.0.1:2375')
 
 LIMITS = [
-    '--memory=128m',
-    '--memory-swap=128m',
+    '--memory=384m',
+    '--memory-swap=384m',
     '--ulimit', 'core=0',
     '--ulimit', 'data=536870912',
     '--ulimit', 'rss=134217728',
