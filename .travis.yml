@@ -1,0 +1,30 @@
+---
+language: generic
+dist: trusty
+sudo: required
+services:
+  - docker
+env:
+  global:
+    - secure: "VgfMAiPWH53kcSKiHRr/OvJ2Dfr9VFMnJJewQbsxNdUtziX6CkOspgILOEISpmb72VN8xbX8LSQuXrkOeqcs93TnMF8Ms0Ya3TX1S+sgOfWn2nMLIzqADCxQAckPvSPWNsrYGWB0mMhovq1rlQNVnHFCSUmYjW2sJCIjm2nPtwJqMRlxw4lrYHcRv23BQGo5VxtCp29m6NzDVZfUS32bxX3QKu7uPe7PgKnkv2OC/Fdg+yKJWHjTw8R/1N/gi1PQ3g+ZVa8PASI18ywKH2F17i+xZCbgZ0GF/GFJHBgc6Um1nmUifV5X+UoMjDRbqUyybYjlOnMLUN94h1V2rG43UNT5jwniWoGDqvpQwnERj9qmXGr1W74nbaDG5SiQPLKOJc407epC+CF0P2mpsp+b9qrjNl/8kIq5YcgmbQnGKCMFsjef5bn3R6JdkXDLB0Rv1c5rmoK8sOjgZt5BTlDOHVzzVp7tzOZSCtSibh+zdJOXpjZ/lxS479y6zr4gfSHDakpIXIfYuAXkSEJ3qOMvFKzFrEQfZFL9r2PEqDVzeFo4veBDdofO7AllSmH7TNG29KqEMUZxuevvjhOHR6VhQEPLztSS9gE3tEosPLo918DxZbd647PS6XwOZsl79tY7hHzuAXYe7waHJXaN2PsSzz8tE6387fUbdrl6oiRkR90="
+    - secure: "dqOr6VVVXq2gvQTz0QK81bqb0QPmAnoXMDrZtX0Ln21mC2Wovc71C54UYUF9A0o0oO/+4gKe4MCqpOVkECDwuYEgyJooPw4jtEjRpYoi326hFcHOAuHAua2oMV4mI8s6jpeDPDuOlDJcTx8jnZM/+VmghuaBZnhf29CsSAs2ITu9CB9b9mV4JorgU4RGm6Cuo8LCnc/Bn9bDPPgbEwonSOUMJqSWWccvO+93zZLCC4tw3FBXMI+aUW2qc7HhBt0fTF3/fxKDnaQqAJ7amq2N6c+haQzOHgWPX3mrGNaOLD4d6H0WRHXgf4Lm1tZRHgXym5DeQAZzJmjRhJ9zhTXwp+Qf7u03shzfTZIOcfGu+za7P/ibc59D6RNscO5p4SF7tjQ/QtIRCXuNrOQXPSASVB3Nu1I94hx8V7rV9KjHKTZTJ1Ao84VJyqgCMaEaz9WyRoB51SOpdVcyY8aOcXimg8jBcZYkjYT9qD3bEF3kg3i8AELiqsEOhb6WBzRC0it/eA+qTy7gHeFIl5kZZ7eS/9rwjrlsX7agSxJ+Yr6nG2ikNrOH4IZj2C/SnazpOQzGJGiiTXhVFWatotg9idgf968sCw85quUkKvUZbDrCtVWCSyZh+BBErSGQZWwwQyNRBv6F1nTPH6WXZ6Q3Rez3PrRuDmBw1sWxisWUZq4CeK4="
+
+before_install:
+- docker --version
+- docker-compose --version
+
+install:
+- sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+- sudo chmod +x /usr/local/bin/ecs-cli
+- ecs-cli configure profile --profile-name travis --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY
+- ecs-cli configure --cluster default --default-launch-type EC2 --region eu-central-1 --config-name travis
+
+script:
+- docker build -t eos_compiler compiler &&
+  docker images &&
+  /bin/bash compiler/upload_to_registry.sh eos_compiler
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
