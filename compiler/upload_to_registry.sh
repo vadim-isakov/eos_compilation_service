@@ -18,7 +18,7 @@ do
 	fi
 done
 
-# upload images to registry
+#  upload images to registry 
 for NAME in "$@"
 do
 	for TAG in "${TAGS[@]}"
