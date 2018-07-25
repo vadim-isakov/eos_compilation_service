@@ -11,6 +11,7 @@ from flask import Flask, request
 
 
 DOCKER_HOST = os.environ.get("DOCKER_HOST", '127.0.0.1:2375')
+SERVICE_PORT = os.environ.get("SERVICE_PORT", 5000)
 
 LIMITS = [
     '--memory=384m',
@@ -114,4 +115,4 @@ def run(tmpdir, flag):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=SERVICE_PORT)
