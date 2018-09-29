@@ -2,6 +2,9 @@ FROM eosio/builder as builder
 ARG branch=v1.0.1
 ARG symbol=SYS
 
+RUN git clone https://github.com/cryptonomex/secp256k1-zkp.git \
+    && cd secp256k1-zkp && ./autogen.sh && ./configure && make && make install
+
 RUN git clone -b $branch https://github.com/EOSIO/eos.git --recursive \
     && cd eos && echo "$branch:$(git rev-parse HEAD)" > /etc/eosio-version \
     && cmake -H. -B"/tmp/build" -GNinja -DCMAKE_BUILD_TYPE=Release -DWASM_ROOT=/opt/wasm -DCMAKE_CXX_COMPILER=clang++ \
